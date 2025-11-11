@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react"
 
 function App() {
+
+  //array di partenza
   const initialFilms = [
     { title: 'Inception', genre: 'Fantascienza' },
     { title: 'Il Padrino', genre: 'Thriller' },
@@ -9,21 +11,50 @@ function App() {
     { title: 'Interstellar', genre: 'Fantascienza' },
     { title: 'Pulp Fiction', genre: 'Thriller' },
   ]
-
+  //destrutturazione dell'array
   const [films, setFilms] = useState(initialFilms)
-  const [fermo, setFermo] = useState(films)
 
+
+  const singleGenres = []
+  for (let i = 0; i < initialFilms.length; i++) {
+
+    const film = initialFilms[i];
+
+    if (!singleGenres.includes(film.genre)) {
+      singleGenres.push(film.genre)
+    }
+
+  }
+
+
+
+  const [staticFilms, setStaticFilms] = useState(films)
+
+  //variabile di appoggio per gestire il filtraggio nell'input search
   const [search, setSearch] = useState('')
 
+
+  //variabile di appoggio per gestire il filtraggio nel select
+  const [select, setSelect] = useState('')
+
+
+  //filtraggio tramite il search
   useEffect(() => {
-    const filteredFilms = films.filter(film => film.title.toLowerCase().includes(search.toLowerCase()))
-    setFermo(filteredFilms)
+    const filteredFilms = staticFilms.filter(film => film.title.toLowerCase().includes(search.toLowerCase()))
+    setStaticFilms(filteredFilms)
 
     if (search.length === 0) {
-      setFermo(films)
+      setStaticFilms(films)
     }
 
   }, [films, search])
+
+
+  // //filtraggio tramite il select
+  // useEffect(() => {
+  //   const selectedFilms = staticFilms.filter(film => film.genre.toLowerCase().includes(select.toLowerCase()))
+  //   setStaticFilms(selectedFilms)
+  // }, [])
 
 
 
@@ -34,23 +65,24 @@ function App() {
     <>
       <div className="container">
 
-        {/* <div className="mb-3">
-          <select className="form-select form-select-lg">
-            <option value="Seleziona un genere">Selezione un genere</option>
+        <div className="mb-3">
+          <select className="form-select" value onChange={(e) => setSelect(e.target.value)}>
             {
-              films.map(film => (
-                <option key={film.title} value={film.genre}>{film.genre}</option>
+              singleGenres.map((genre, index) => (
+                <option key={index} value={genre}>
+                  {genre}
+                </option>
               ))
             }
           </select>
-        </div> */}
+        </div>
 
 
         <input type="search" value={search} onChange={(e) => setSearch(e.target.value)} />
 
         <ul className="list-group">
           {
-            fermo.map(film => (
+            staticFilms.map(film => (
               <li key={film.title} className="list-group-item">{film.title}</li>
             ))
           }

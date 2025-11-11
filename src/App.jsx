@@ -45,7 +45,7 @@ function App() {
   //filtraggio tramite il search
   useEffect(() => {
     //filtro l'array, estraggo il film, se il titolo include quello che sto scrivendo allora aggiorno lo stato della copia dell'array con quelli filtrati
-    const searchedFilms = initialFilms.filter(film => film.title.toLowerCase().includes(search.toLowerCase()))
+    const searchedFilms = films.filter(film => film.title.toLowerCase().includes(search.toLowerCase()))
     setStaticFilms(searchedFilms)
 
     //se l'utente non cerca nulla allora tengo mostrata tutta la lista
@@ -74,7 +74,23 @@ function App() {
   }, [select])
 
 
+  const [addTitle, setAddTitle] = useState('')
+  const [addGenre, setAddGenre] = useState('')
 
+  function handleSubmit(e) {
+    e.preventDefault()
+
+    let newFilm = {
+      title: addTitle,
+      genre: addGenre
+    }
+    const uploadFilms = [...initialFilms, newFilm]
+    setFilms(uploadFilms)
+
+    setAddGenre('')
+    setAddTitle('')
+
+  }
 
 
 
@@ -97,6 +113,12 @@ function App() {
 
 
         <input type="search" value={search} onChange={(e) => setSearch(e.target.value)} />
+
+        <form onSubmit={handleSubmit}>
+          <input type="text" placeholder="Add film" value={addTitle} onChange={(e) => setAddTitle(e.target.value)} />
+          <input type="text" placeholder="Add genre" value={addGenre} onChange={(e) => setAddGenre(e.target.value)} />
+          <button type="submit">Add</button>
+        </form>
 
         <ul className="list-group">
           {

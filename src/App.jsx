@@ -67,7 +67,7 @@ function App() {
     setStaticFilms(selectedFilms)
 
     //se il select ha un valore uguale alla selezione generica (nessuna selezione), allora aggiorno la copia con i film originali
-    if (select === 'Seleziona un genere') {
+    if (select === '') {
       setStaticFilms(films)
     }
 
@@ -85,7 +85,7 @@ function App() {
 
         <div className="mb-3">
           <select className="form-select" name="generi-dei-film" id="genres" value={select} onChange={(e) => setSelect(e.target.value)}>
-            <option value='Seleziona un genere'>Seleziona un genere</option>
+            <option value=''>Seleziona un genere</option>
             {
               singleGenres.map((genre, index) => (
                 <option key={index} value={genre}>

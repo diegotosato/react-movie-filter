@@ -1,3 +1,5 @@
+import { useState } from "react"
+
 function App() {
   const initialFilms = [
     { title: 'Inception', genre: 'Fantascienza' },
@@ -8,8 +10,19 @@ function App() {
     { title: 'Pulp Fiction', genre: 'Thriller' },
   ]
 
+  const [films, setFilms] = useState(initialFilms)
+
   return (
     <>
+      <div className="container">
+        <ul className="list-group">
+          {
+            films.map(film => (
+              <li className="list-group-item">{film.title}</li>
+            ))
+          }
+        </ul>
+      </div>
 
     </>
   )

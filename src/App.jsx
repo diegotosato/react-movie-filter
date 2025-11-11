@@ -23,9 +23,22 @@ function App() {
     }
   }, [films, search])
 
+
   return (
     <>
       <div className="container">
+
+        <div class="mb-3">
+          <select className="form-select form-select-lg">
+            <option selected>Selezione un genere</option>
+            {
+              films.map(film => (
+                <option value={film.genre}>{film.genre}</option>
+              ))
+            }
+          </select>
+        </div>
+
 
         <input type="search" value={search} onChange={(e) => setSearch(e.target.value)} />
 

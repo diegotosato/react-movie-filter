@@ -10,11 +10,15 @@ function App() {
     { title: 'Batman', genre: 'Azione' },
     { title: 'Interstellar', genre: 'Fantascienza' },
     { title: 'Pulp Fiction', genre: 'Thriller' },
+    { title: 'Madagascar', genre: 'Animazione' }
   ]
+
   //destrutturazione dell'array
   const [films, setFilms] = useState(initialFilms)
 
 
+
+  //array per creare le voci per la selezione del form select senza ripetizioni di genere
   const singleGenres = []
   for (let i = 0; i < initialFilms.length; i++) {
 
@@ -27,7 +31,7 @@ function App() {
   }
 
 
-
+  //variabile per copiare l'array originale e non agire sull'originale per evitare dei loop infiniti
   const [staticFilms, setStaticFilms] = useState(films)
 
   //variabile di appoggio per gestire il filtraggio nell'input search
@@ -38,23 +42,37 @@ function App() {
   const [select, setSelect] = useState('')
 
 
+
   //filtraggio tramite il search
   useEffect(() => {
+    //filtro la copia dell'array, estraggo il film, se il titolo include quello che sto scrivendo allor aggiorno lo stato della copia dell'array con quelli filtrati
     const filteredFilms = staticFilms.filter(film => film.title.toLowerCase().includes(search.toLowerCase()))
     setStaticFilms(filteredFilms)
 
+    //se l'utente non cerca nulla allora tengo mostrata tutta la lista
     if (search.length === 0) {
       setStaticFilms(films)
     }
 
+    //questa funzione voglio che si ripeta ogni qual volta io vado a cambiare o l'array originale o mentre sto scrivendo
   }, [films, search])
 
 
-  // //filtraggio tramite il select
-  // useEffect(() => {
-  //   const selectedFilms = staticFilms.filter(film => film.genre.toLowerCase().includes(select.toLowerCase()))
-  //   setStaticFilms(selectedFilms)
-  // }, [])
+
+
+  //filtraggio tramite il select
+  useEffect(() => {
+    //filtro l'array originale, estraggo il film, se il genere del film include la mia selezione nel form select allora aggiorno la copia con quelli filtrati
+    const selectedFilms = films.filter(film => film.genre.toLowerCase().includes(select.toLowerCase()))
+    setStaticFilms(selectedFilms)
+
+    //se il select ha un valore uguale alla selezione generica (nessuna selezione), allora aggiorno la copia con i film originali
+    if (select === 'Seleziona un genere') {
+      setStaticFilms(films)
+    }
+
+    //questa funzione voglio che si ripeta ogni volta che viene cambiato il select
+  }, [select])
 
 
 
@@ -66,7 +84,8 @@ function App() {
       <div className="container">
 
         <div className="mb-3">
-          <select className="form-select" value onChange={(e) => setSelect(e.target.value)}>
+          <select className="form-select" name="generi-dei-film" id="genres" value={select} onChange={(e) => setSelect(e.target.value)}>
+            <option value='Seleziona un genere'>Seleziona un genere</option>
             {
               singleGenres.map((genre, index) => (
                 <option key={index} value={genre}>

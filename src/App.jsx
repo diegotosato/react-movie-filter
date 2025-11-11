@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 function App() {
   const initialFilms = [
@@ -12,9 +12,19 @@ function App() {
 
   const [films, setFilms] = useState(initialFilms)
 
+  const [search, setSearch] = useState('')
+
+  useEffect(() => {
+    const filteredFilms = films.filter(film => film.title.includes(search))
+    setFilms(filteredFilms)
+  }, [films, search])
+
   return (
     <>
       <div className="container">
+
+        <input type="search" value={search} onChange={(e) => setSearch(e.target.value)} />
+
         <ul className="list-group">
           {
             films.map(film => (

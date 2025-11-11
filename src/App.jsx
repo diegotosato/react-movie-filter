@@ -9,8 +9,7 @@ function App() {
     { title: 'Titanic', genre: 'Romantico' },
     { title: 'Batman', genre: 'Azione' },
     { title: 'Interstellar', genre: 'Fantascienza' },
-    { title: 'Pulp Fiction', genre: 'Thriller' },
-    { title: 'Madagascar', genre: 'Animazione' }
+    { title: 'Pulp Fiction', genre: 'Thriller' }
   ]
 
   //destrutturazione dell'array
@@ -45,9 +44,9 @@ function App() {
 
   //filtraggio tramite il search
   useEffect(() => {
-    //filtro la copia dell'array, estraggo il film, se il titolo include quello che sto scrivendo allor aggiorno lo stato della copia dell'array con quelli filtrati
-    const filteredFilms = staticFilms.filter(film => film.title.toLowerCase().includes(search.toLowerCase()))
-    setStaticFilms(filteredFilms)
+    //filtro l'array, estraggo il film, se il titolo include quello che sto scrivendo allora aggiorno lo stato della copia dell'array con quelli filtrati
+    const searchedFilms = initialFilms.filter(film => film.title.toLowerCase().includes(search.toLowerCase()))
+    setStaticFilms(searchedFilms)
 
     //se l'utente non cerca nulla allora tengo mostrata tutta la lista
     if (search.length === 0) {
@@ -63,12 +62,12 @@ function App() {
   //filtraggio tramite il select
   useEffect(() => {
     //filtro l'array originale, estraggo il film, se il genere del film include la mia selezione nel form select allora aggiorno la copia con quelli filtrati
-    const selectedFilms = films.filter(film => film.genre.toLowerCase().includes(select.toLowerCase()))
-    setStaticFilms(selectedFilms)
+    const selectedFilms = initialFilms.filter(film => film.genre.toLowerCase().includes(select.toLowerCase()))
+    setFilms(selectedFilms)
 
     //se il select ha un valore uguale alla selezione generica (nessuna selezione), allora aggiorno la copia con i film originali
     if (select === '') {
-      setStaticFilms(films)
+      setFilms(initialFilms)
     }
 
     //questa funzione voglio che si ripeta ogni volta che viene cambiato il select

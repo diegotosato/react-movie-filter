@@ -11,41 +11,47 @@ function App() {
   ]
 
   const [films, setFilms] = useState(initialFilms)
+  const [fermo, setFermo] = useState(films)
 
   const [search, setSearch] = useState('')
 
   useEffect(() => {
     const filteredFilms = films.filter(film => film.title.toLowerCase().includes(search.toLowerCase()))
-    setFilms(filteredFilms)
+    setFermo(filteredFilms)
 
     if (search.length === 0) {
-      setFilms(initialFilms)
+      setFermo(films)
     }
+
   }, [films, search])
+
+
+
+
 
 
   return (
     <>
       <div className="container">
 
-        <div class="mb-3">
+        {/* <div className="mb-3">
           <select className="form-select form-select-lg">
-            <option selected>Selezione un genere</option>
+            <option value="Seleziona un genere">Selezione un genere</option>
             {
               films.map(film => (
-                <option value={film.genre}>{film.genre}</option>
+                <option key={film.title} value={film.genre}>{film.genre}</option>
               ))
             }
           </select>
-        </div>
+        </div> */}
 
 
         <input type="search" value={search} onChange={(e) => setSearch(e.target.value)} />
 
         <ul className="list-group">
           {
-            films.map(film => (
-              <li className="list-group-item">{film.title}</li>
+            fermo.map(film => (
+              <li key={film.title} className="list-group-item">{film.title}</li>
             ))
           }
         </ul>

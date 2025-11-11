@@ -18,7 +18,7 @@ function App() {
 
 
   //array per creare le voci per la selezione del form select senza ripetizioni di genere
-  const singleGenres = []
+  const [singleGenres, setSingleGenres] = useState([])
   for (let i = 0; i < initialFilms.length; i++) {
 
     const film = initialFilms[i];
@@ -50,7 +50,7 @@ function App() {
 
     //se l'utente non cerca nulla allora tengo mostrata tutta la lista
     if (search.length === 0) {
-      setStaticFilms(films)
+      films
     }
 
     //questa funzione voglio che si ripeta ogni qual volta io vado a cambiare o l'array originale o mentre sto scrivendo
@@ -67,7 +67,7 @@ function App() {
 
     //se il select ha un valore uguale alla selezione generica (nessuna selezione), allora aggiorno la copia con i film originali
     if (select === '') {
-      setFilms(initialFilms)
+      films
     }
 
     //questa funzione voglio che si ripeta ogni volta che viene cambiato il select
@@ -84,9 +84,12 @@ function App() {
       title: addTitle,
       genre: addGenre
     }
+
+
     const uploadFilms = [...initialFilms, newFilm]
     setFilms(uploadFilms)
 
+    singleGenres.push(newFilm.genre)
     setAddGenre('')
     setAddTitle('')
 

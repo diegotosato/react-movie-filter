@@ -15,8 +15,12 @@ function App() {
   const [search, setSearch] = useState('')
 
   useEffect(() => {
-    const filteredFilms = films.filter(film => film.title.includes(search))
+    const filteredFilms = films.filter(film => film.title.toLowerCase().includes(search.toLowerCase()))
     setFilms(filteredFilms)
+
+    if (search.length === 0) {
+      setFilms(initialFilms)
+    }
   }, [films, search])
 
   return (
